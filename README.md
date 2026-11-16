@@ -1,16 +1,38 @@
-# React + Vite
+# Rick and Morty Data Explorer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React application that consumes the Rick and Morty API and shows its characters in two views: a general view (grid of characters) and a detail view (full information of one character).
 
-Currently, two official plugins are available:
+<!-- README inicial, por poner más cosas. Borrar comentarios a medida de terminar de poner esas cosas. Papaya -->
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Group members
 
-## React Compiler
+- Jorge Rodriguez
+- José Montoro
+- Víctor Chen
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Chosen API
 
-## Expanding the ESLint configuration
+**Rick and Morty API** – documentation: <https://rickandmortyapi.com/documentation>
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## File structure
+
+<!-- Borrador inicial, placeholder, cosa, papayaaaa -->
+```
+my-project/
+├── public/
+├── src/
+│   ├── services/       # functions that call the API (fetch)
+│   ├── components/
+│   │   ├── atoms/      # smallest elements
+│   │   ├── molecules/  # groups of atoms
+│   │   ├── organisms/  # complex sections
+│   │   ├── templates/  # page layouts without real data
+│   │   └── pages/      # templates filled with real data
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css       # design tokens (CSS variables)
+├── package.json
+└── README.md
+```
+
+<!-- PENDIENTE: cambiar la estructura para cuando ya esté completa.-->
