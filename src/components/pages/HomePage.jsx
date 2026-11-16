@@ -13,7 +13,7 @@ function HomePage({ characters, error, page, setPage, setSelectedCharacter }) {
             {characters.map(character => (
                 <li key={character.id}>
                     <h2>{character.name}</h2>
-                    <img src={character.image} alt={character.name} />
+                    <img src={`https://pfygdubgszqehygueykn.supabase.co/storage/v1/object/public/rickandmorty/${character.id}.jpeg`} alt={character.name} loading="lazy" />
                     <Button onClick={() => setSelectedCharacter(character)}>View Details</Button>
                 </li>
             ))}

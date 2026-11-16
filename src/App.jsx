@@ -3,10 +3,11 @@ import { getCharacters, getCharacterById } from './services/api.js';
 import { useState, useEffect } from 'react';
 import HomePage from './components/pages/HomePage.jsx';
 import CharacterPage from './components/pages/CharacterPage.jsx';
+
 // TODO:
 // 1. Diseño de la página
 // 2. Readme
-// 3. Añadir buscador de personajes
+// 3. Añadir buscador de personajes / localizaciones / episodios
 
 function App() {
   const [actualPage, setActualPage] = useState("characters"); // characters, episodes, locations
@@ -23,20 +24,9 @@ function App() {
       .catch(error => setError(error));
   }, [page]);
 
-  // Fetch the selected character details when a character is selected
-  const selectedId = selectedCharacter?.id;
-  useEffect(() => {
-    if (!selectedId) return;
-
-    getCharacterById(selectedId)
-      .then(data => setSelectedCharacter(data))
-      .catch(error => setError(error));
-  }, [selectedId]);
-
-
   // Render the selected character details if a character is selected
   if (selectedCharacter) {
-    return <CharacterPage character={selectedCharacter} setSelectedCharacter={setSelectedCharacter} error={error} />
+    return <CharacterPage character={selectedCharacter} setSelectedCharacter={setSelectedCharacter} setError={setError} error={error} />
   }
 
   // Render the list of characters and pagination buttons
