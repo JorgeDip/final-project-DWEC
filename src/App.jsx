@@ -1,5 +1,5 @@
 
-import { getCharacters, getCharacterById } from './services/api.js';
+import { getCharacters } from './services/api.js';
 import { useState, useEffect } from 'react';
 import HomePage from './components/pages/HomePage.jsx';
 import CharacterPage from './components/pages/CharacterPage.jsx';
