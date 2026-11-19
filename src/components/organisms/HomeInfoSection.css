@@ -2,7 +2,9 @@
     width: 100%;
     min-height: 200px;
 
-    padding: var(--space-xl) 0 0 0;
+    background: radial-gradient(circle, rgba(0, 227, 139, 0.15) 0%, rgba(15, 19, 29, 1) 75%);
+
+    padding: var(--space-xl) 0 var(--space-xl) 0;
 
     display: flex;
     flex-direction: column;
