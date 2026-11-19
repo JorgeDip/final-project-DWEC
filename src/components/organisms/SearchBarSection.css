@@ -1,0 +1,20 @@
+.search-bar-section {
+    background-color: var(--color-surface-high);
+
+    padding: var(--space-md) var(--space-lg);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-bar-section__input {
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--radius);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-label);
+    font-size: var(--text-label-lg-size);
+}

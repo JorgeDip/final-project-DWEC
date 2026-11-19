@@ -1,5 +1,6 @@
 // src/services/api.js
 const BASE_URL = "https://rickandmortyapi.com/api";
+const FILE_DATA_URL = "src/data/characters_enriched.json";
 
 export async function getCharacters(page = 1) {
 	// Validate the page number
@@ -43,9 +44,9 @@ export async function getCharacterById(id) {
 	const rawCache = localStorage.getItem(key);
 	const cache = rawCache ? JSON.parse(rawCache) : {};
 
-	// Si ya se descargó antes (solo o dentro de una página), lo devuelve al instante
+	// If the data for the requested character is already cached, return it
 	if (cache[id]) {
-		console.log(`Personaje ${id} desde caché`);
+		console.log(`Fetching character with id ${id} from cache`);
 		return cache[id];
 	}
 
@@ -54,6 +55,14 @@ export async function getCharacterById(id) {
 		throw new Error(`Error fetching character with id ${id}: ${res.statusText}`);
 	}
 	const data = await res.json();
+
+	// Fetch enriched data from the local JSON file
+	const getEnrichedData = await fetch(`${FILE_DATA_URL}`);
+	if (!getEnrichedData.ok) {
+		throw new Error(`Error fetching enriched data: ${getEnrichedData.statusText}`);
+	}
+	const enrichedData = await getEnrichedData.json();
+	const enrichedCharacterData = enrichedData.find((char) => char.id === id);
 
 	const cleanResults = {
 		id: data.id,
@@ -64,6 +73,14 @@ export async function getCharacterById(id) {
 		gender: data.gender,
 		origin: data.origin?.name,
 		location: data.location?.name,
+		episode: enrichedCharacterData.episode || [],
+		description: enrichedCharacterData.description || "No description available",
+		current_residence: enrichedCharacterData.current_residence,
+		mental_state: enrichedCharacterData.mental_state,
+		citadel_status: enrichedCharacterData.citadel_status,
+		age: enrichedCharacterData.age,
+		threat_level: enrichedCharacterData.threat_level,
+		related_character_ids: enrichedCharacterData.related_character_ids || [],
 	};
 
 	// Cache the results in localStorage
@@ -76,4 +93,32 @@ export async function getCharacterById(id) {
 
 	// Return the cleaned object with only the necessary properties
 	return cleanResults;
+}
+
+export async function getCharactersFromFile() {
+	// Check if the data is already cached in localStorage
+	const key = `characters_cache_file`;
+	const rawCache = localStorage.getItem(key);
+	const cache = rawCache ? JSON.parse(rawCache) : {};
+
+	if (cache["data"]) {
+		console.log(`Fetching characters from cache`);
+		return cache["data"];
+	}
+
+	const res = await fetch(`${FILE_DATA_URL}`);
+	if (!res.ok) {
+		throw new Error(`Error fetching characters from file : ${res.statusText}`);
+	}
+	const data = await res.json();
+	cache["data"] = data;
+	// Cache the results in localStorage
+	try {
+		localStorage.setItem(key, JSON.stringify(cache));
+	} catch (e) {
+		console.warn("Cannot save to localStorage:", e);
+	}
+
+	// Return the cleaned object with only the necessary properties
+	return data;
 }

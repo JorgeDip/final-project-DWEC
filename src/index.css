@@ -1,0 +1,210 @@
+@font-face {
+    font-family: "Space Grotesk";
+    src: url("./components/assets/fonts/SpaceGrotesk.ttf") format("truetype");
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Space Mono";
+    src: url("./components/assets/fonts/SpaceMono-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Space Mono";
+    src: url("./components/assets/fonts/SpaceMono-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Space Mono";
+    src: url("./components/assets/fonts/SpaceMono-Italic.ttf") format("truetype");
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Space Mono";
+    src: url("./components/assets/fonts/SpaceMono-BoldItalic.ttf") format("truetype");
+    font-weight: 700;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Geist";
+    src: url("./components/assets/fonts/Geist.ttf") format("truetype");
+    font-style: normal;
+}
+
+:root {
+    /* ---------- Superficies ---------- */
+    --color-background: #0f131d;
+    /* fondo de página */
+    --color-surface-lowest: #0a0e18;
+    /* zonas más profundas (barra de amenaza, cabecera de sección) */
+    --color-surface-low: #171b26;
+    /* tarjetas, paneles */
+    --color-surface: #1c1f2a;
+    /* cajas de datos internas */
+    --color-surface-high: #262a35;
+    /* botones neutros, tabs activas, search */
+    --color-surface-highest: #313540;
+    /* chips de referencia */
+    --color-outline: #849587;
+    --color-outline-variant: #3b4a3f;
+
+    /* ---------- Texto ---------- */
+    --color-text: #dfe2f1;
+    /* on-surface */
+    --color-text-muted: #b9cbbc;
+    /* on-surface-variant */
+
+    /* ---------- Acentos ---------- */
+    --color-primary: #00ff9d;
+    /* verde portal: acciones, VIVO, valores */
+    --color-primary-dim: #00e38b;
+    --color-on-primary: #00391f;
+    --color-secondary: #4cd7f6;
+    /* cyan: telemetría, enlaces, CYBORG */
+    --color-on-secondary: #003640;
+
+    --color-tertiary: #6FFBBE;
+    --color-on-tertiary: #00391f;
+
+
+    /* ---------- Peligro / alerta ---------- */
+    --color-danger: #ffb4ab;
+    /* barra de amenaza, "Fugitivo Máximo" */
+    --color-danger-container: #93000a;
+    /* badge NIVEL OMEGA */
+    --color-on-danger-container: #ffdad6;
+
+    /* ---------- Estados de personaje ---------- */
+    --status-alive: var(--color-primary);
+    --status-alive-bg: rgba(0, 255, 157, 0.1);
+    --status-alive-border: rgba(0, 255, 157, 0.3);
+    --status-cyborg: var(--color-secondary);
+    --status-cyborg-bg: rgba(76, 215, 246, 0.1);
+    --status-danger: var(--color-danger);
+    --status-danger-bg: rgba(255, 180, 171, 0.12);
+
+    /* ---------- Tintes y bordes ---------- */
+    --tint-primary-08: rgba(0, 255, 157, 0.08);
+    --tint-primary-15: rgba(0, 255, 157, 0.15);
+    --tint-secondary-15: rgba(76, 215, 246, 0.15);
+    --border-subtle: 1px solid rgba(255, 255, 255, 0.08);
+    --border-primary-soft: 1px solid rgba(0, 255, 157, 0.2);
+    --border-secondary-soft: 1px solid rgba(76, 215, 246, 0.2);
+
+    /* ---------- Efectos ---------- */
+    --blur-panel: blur(16px);
+    --blur-card: blur(24px);
+    --glow-primary: 0 0 16px rgba(0, 255, 157, 0.25);
+    --glow-primary-strong: 0 0 20px rgba(0, 255, 157, 0.45);
+    --glow-secondary: 0 0 16px rgba(76, 215, 246, 0.25);
+    --shadow-overlay: 0 0 32px -4px rgba(0, 255, 157, 0.15), 0 20px 25px -5px rgba(0, 0, 0, 0.6);
+    --focus-ring: 0 0 0 2px var(--color-background), 0 0 0 4px var(--color-primary);
+
+    /* ---------- Tipografía ---------- */
+    --font-headline: "Space Grotesk", system-ui, sans-serif;
+    --font-body: "Geist", system-ui, sans-serif;
+    --font-label: "Space Mono", ui-monospace, monospace;
+
+    --text-display-size: 56px;
+    --text-display-line: 64px;
+    --text-display-tracking: -0.02em;
+    --text-headline-xl-size: 40px;
+    --text-headline-xl-line: 48px;
+    --text-headline-xl-tracking: -0.02em;
+    --text-headline-lg-size: 32px;
+    --text-headline-lg-line: 40px;
+    --text-headline-md-size: 24px;
+    --text-headline-md-line: 32px;
+    --text-headline-sm-size: 20px;
+    --text-headline-sm-line: 28px;
+    --text-title-size: 18px;
+    --text-title-line: 24px;
+    --text-body-lg-size: 16px;
+    --text-body-lg-line: 26px;
+    --text-body-md-size: 14px;
+    --text-body-md-line: 22px;
+    --text-body-sm-size: 12px;
+    --text-body-sm-line: 18px;
+
+    --text-label-lg-size: 13px;
+    --text-label-lg-line: 18px;
+    --text-label-lg-tracking: 0.06em;
+    --text-label-md-size: 11px;
+    --text-label-md-line: 16px;
+    --text-label-md-tracking: 0.08em;
+    --text-label-sm-size: 10px;
+    --text-label-sm-line: 14px;
+    --text-label-sm-tracking: 0.1em;
+
+    --text-info-lg-size: 32px;
+
+    /* ---------- Radios ---------- */
+    --radius-sm: 0.125rem;
+    --radius: 0.25rem;
+    --radius-md: 0.375rem;
+    --radius-lg: 0.5rem;
+    --radius-xl: 0.75rem;
+    --radius-full: 9999px;
+
+    /* ---------- Espaciado ---------- */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2.5rem;
+
+    /* ---------- Layout ---------- */
+    --layout-max-width: 1280px;
+    --layout-margin: 1.25rem;
+    --layout-gutter: 1rem;
+    --layout-columns: 1;
+    /* tarjetas del directorio */
+}
+
+@media (min-width: 768px) {
+    :root {
+        --layout-margin: 2.5rem;
+        --layout-gutter: 1.5rem;
+        --layout-columns: 2;
+    }
+}
+
+@media (min-width: 1280px) {
+    :root {
+        --layout-margin: 4rem;
+        --layout-gutter: 2rem;
+        --layout-columns: 4;
+    }
+}
+
+@media (max-width: 767px) {
+    :root {
+        --text-display-size: 36px;
+        --text-display-line: 44px;
+        --text-display-tracking: -0.01em;
+        --text-headline-xl-size: 28px;
+        --text-headline-xl-line: 36px;
+        --text-headline-xl-tracking: -0.01em;
+        --text-headline-lg-size: 24px;
+        --text-headline-lg-line: 32px;
+    }
+}
+
+body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+    font-family: var(--font-body);
+}
+
+.container {
+    max-width: var(--layout-max-width);
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 var(--layout-margin);
+}
