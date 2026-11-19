@@ -8,12 +8,32 @@
     align-items: center;
 }
 
-.search-bar-section__input {
+.search-bar-section .container {
     width: 100%;
-    padding: var(--space-sm) var(--space-md);
+}
+
+.search-bar-section__field {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    width: 100%;
+    padding: 0 var(--space-md);
+    background-color: var(--color-surface);
     border: 1px solid var(--color-outline-variant);
     border-radius: var(--radius);
-    background-color: var(--color-surface);
+    color: var(--color-text-muted);
+}
+
+.search-bar-section__field:focus-within {
+    border-color: var(--color-primary);
+}
+
+.search-bar-section__input {
+    flex: 1;
+    padding: var(--space-sm) 0;
+    border: none;
+    outline: none;
+    background: transparent;
     color: var(--color-text);
     font-family: var(--font-label);
     font-size: var(--text-label-lg-size);
