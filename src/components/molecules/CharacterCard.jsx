@@ -1,7 +1,9 @@
 import Button from '../atoms/Button.jsx';
+import './CharacterCard.css';
 function CharacterCard({ character, setSelectedCharacter }) {
     // alive / dead / unknown, para la clase del color
     const status = character.status?.toLowerCase() ?? 'unknown';
+    console.log(character);
 
     return (
         <article className="character-card">
