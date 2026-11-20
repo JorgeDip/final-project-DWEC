@@ -8,7 +8,7 @@ export async function getCharacters(page = 1) {
 	if (page > 42) throw new Error("Page number must be less than or equal to 42");
 
 	// Check if the data is already cached in localStorage
-	const key = `characters_cache_pages`;
+	const key = "characters_cache_pages_v2"; //In theory, it should show the location and state of the card for the character.
 	const rawCache = localStorage.getItem(key);
 	const cache = rawCache ? JSON.parse(rawCache) : {};
 
