@@ -24,6 +24,10 @@ export async function getCharacters(page = 1) {
 	const cleanResults = data.results.map((character) => ({
 		id: character.id,
 		name: character.name,
+		status: character.status,
+		species: character.species,
+		origin: character.origin?.name,
+		location: character.location?.name,
 	}));
 
 	// Store the cleaned results in the cache object under the page number

@@ -25,11 +25,11 @@ function CharacterCard({ character, setSelectedCharacter }) {
                 <dl className="character-card__info">
                     <div className="character-card__info-item">
                         <dt>Origin</dt>
-                        <dd>{character.origin?.name}</dd>
+                        <dd>{character.origin}</dd>
                     </div>
                     <div className="character-card__info-item">
                         <dt>Location</dt>
-                        <dd>{character.location?.name}</dd>
+                        <dd>{character.location}</dd>
                     </div>
                 </dl>
 
