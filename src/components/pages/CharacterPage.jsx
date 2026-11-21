@@ -3,6 +3,7 @@ import { getCharacterById, getEpisodeById } from '../../services/api.js';
 
 import Button from '../atoms/Button.jsx';
 import Info from '../atoms/CharacterInfo.jsx';
+import CharacterPageHeader from '../molecules/CharacterPageHeader.jsx';
 import PageTemplate from '../templates/PageTemplate.jsx';
 import Footer from '../layout/Footer.jsx';
 import './CharacterPage.css';
@@ -83,21 +84,10 @@ function CharacterPage({ characterId, setSelectedCharacter, setError, error }) {
     const threat = THREAT[character.threat_level] ?? { pct: 10, label: character.threat_level ?? '—' };
     const ref = `C137-${pad(character.id)}`;
 
-    const header = (
-        <div className="char-page__top">
-            <nav className="char-page__crumbs">
-                <span>Character directory</span> / <span>{character.origin?.name}</span> /{' '}
-                <span className="chip chip--primary">{character.name} (#{pad(character.id)})</span>
-            </nav>
-            <Button variant="back" size="sm" onClick={handleBack}>
-                [ ← Back to directory ]
-            </Button>
-        </div>
-    );
 
     return (
-        <div className="char-page">
-            <PageTemplate header={header} footer={<Footer />}>
+        <PageTemplate header={<CharacterPageHeader character={character} pad={pad} handleBack={handleBack} />} footer={<Footer />}>
+            <div className="char-page">
                 <div className="char-page__content">
                     <div className="char-page__alert">
                         <span>● Security level // Citadel classified Omega-9</span>
@@ -237,8 +227,8 @@ function CharacterPage({ characterId, setSelectedCharacter, setError, error }) {
                         </div>
                     </section>
                 </div>
-            </PageTemplate>
-        </div>
+            </div>
+        </PageTemplate>
     );
 }
 
