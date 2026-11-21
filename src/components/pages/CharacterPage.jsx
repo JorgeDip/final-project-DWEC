@@ -27,7 +27,6 @@ function CharacterPage({ characterId, setSelectedCharacter, setError, error }) {
     const [character, setCharacter] = useState(null);
     const [episodes, setEpisodes] = useState([]);
     const [related, setRelated] = useState([]);
-    const [page, setPage] = useState(1);
 
     useEffect(() => {
         getCharacterById(characterId)
@@ -81,6 +80,12 @@ function CharacterPage({ characterId, setSelectedCharacter, setError, error }) {
         setError(null);
         setSelectedCharacter(null);
     };
+
+    const handleChangeCharacter = (id) => {
+        setError(null);
+        setSelectedCharacter(id);
+        setEpisodes([]); // Clear episodes when changing character
+    }
 
     const threat = THREAT[character.threat_level] ?? { pct: 10, label: character.threat_level ?? '—' };
     const ref = `C137-${pad(character.id)}`;
@@ -181,7 +186,7 @@ function CharacterPage({ characterId, setSelectedCharacter, setError, error }) {
                         <h3 className="char-page__section-title">Quick teleport: explore other subjects</h3>
                         <div className="char-page__related">
                             {related.map((r) => (
-                                <button key={r.id} className="char-page__rel" onClick={() => setSelectedCharacter(r.id)}>
+                                <button key={r.id} className="char-page__rel" onClick={() => handleChangeCharacter(r.id)}>
                                     <img src={`${IMG_BASE}/${r.id}.jpeg`} alt={r.name} loading="lazy" />
                                     <span className="char-page__rel-text">
                                         <small>Subject #{pad(r.id)}</small>

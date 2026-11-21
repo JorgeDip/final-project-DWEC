@@ -1,8 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from '../atoms/Button.jsx';
 import './CharacterEpisodesTable.css';
 function CharacterEpisodesTable({ character, episodes }) {
     const [page, setPage] = useState(1);
+
+    useEffect(() => {
+        setPage(1); // Reset to first page when character or episodes change
+    }, [character, episodes]);
 
     return (<>
         <div className="char-page__tab-head">
