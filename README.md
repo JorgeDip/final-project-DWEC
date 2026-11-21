@@ -27,8 +27,12 @@ final-project-DWEC/
 │   │   └── api.js              # all API calls (fetch) + localStorage cache
 │   ├── components/
 │   │   ├── atoms/              # smallest elements
+│   │   │   ├── Badge.jsx
+│   │   │   ├── Badge.css
 │   │   │   ├── Button.jsx
-│   │   │   └── Button.css
+│   │   │   ├── Button.css
+│   │   │   ├── CharacterInfo.jsx
+│   │   │   └── CharacterInfo.css
 │   │   ├── icons/              # SVG icons
 │   │   │   ├── FolderIcon.jsx
 │   │   │   ├── PlanetIcon.jsx
@@ -39,7 +43,9 @@ final-project-DWEC/
 │   │   │   └── Footer.css
 │   │   ├── molecules/          # groups of atoms
 │   │   │   ├── CharacterCard.jsx
-│   │   │   └── CharacterCard.css
+│   │   │   ├── CharacterCard.css
+│   │   │   ├── CharacterPageHeader.jsx
+│   │   │   └── CharacterPageHeader.css
 │   │   ├── organisms/          # complex sections
 │   │   │   ├── CharactersGridSection.jsx / .css
 │   │   │   ├── HomeInfoSection.jsx / .css
@@ -53,7 +59,9 @@ final-project-DWEC/
 │   ├── main.jsx
 │   └── index.css               # design tokens (CSS variables)
 ├── index.html
+├── eslint.config.js
 ├── package.json
+├── package-lock.json
 ├── pnpm-lock.yaml
 ├── vite.config.js
 └── README.md
