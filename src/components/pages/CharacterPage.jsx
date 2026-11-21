@@ -1,8 +1,10 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getCharacterById, getEpisodeById } from '../../services/api.js';
+
 import Button from '../atoms/Button.jsx';
+import Info from '../atoms/CharacterInfo.jsx';
 import PageTemplate from '../templates/PageTemplate.jsx';
 import Footer from '../layout/Footer.jsx';
-import enriched from '../../data/characters_enriched.json';
 import './CharacterPage.css';
 
 const IMG_BASE = 'https://pfygdubgszqehygueykn.supabase.co/storage/v1/object/public/rickandmorty';
@@ -16,52 +18,76 @@ const THREAT = {
 const TABS = ['Featured episodes', 'Multiversal variants', 'Registered inventions', 'Links & allies'];
 const pad = (n) => String(n).padStart(3, '0');
 
-function CharacterPage({ character, setSelectedCharacter, setError, error }) {
-    const c = useMemo(
-        () => enriched.find((x) => x.id === character.id) ?? character,
-        [character]
-    );
+function CharacterPage({ characterId, setSelectedCharacter, setError, error }) {
     const [tab, setTab] = useState(0);
-    const [episodes, setEpisodes] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    const [character, setCharacter] = useState(null);
+    const [episodes, setEpisodes] = useState([]);
+    const [related, setRelated] = useState([]);
+    const [page, setPage] = useState(1);
+
     useEffect(() => {
-        window.scrollTo(0, 0);
-        setTab(0);
-        setLoading(true);
-        const ids = (c.episode ?? []).slice(0, 5).join(',');
-        if (!ids) {
-            setEpisodes([]);
-            setLoading(false);
-            return;
-        }
-        fetch(`https://rickandmortyapi.com/api/episode/${ids}`)
-            .then((r) => {
-                if (!r.ok) throw new Error('Could not load episodes');
-                return r.json();
+        getCharacterById(characterId)
+            .then((data) => {
+                setCharacter(data);
+                setLoading(false);
             })
-            .then((d) => setEpisodes(Array.isArray(d) ? d : [d]))
-            .catch((e) => setError(e))
-            .finally(() => setLoading(false));
-    }, [c.id]);
+            .catch((err) => {
+                setError(err);
+                setLoading(false);
+            });
+    }, [characterId]);
+
+    // Fetch episodes for the character when the character data is available
+    useEffect(() => {
+        if (character) {
+            character.episode.forEach((epId) => {
+                getEpisodeById(epId)
+                    .then((data) => {
+                        setEpisodes((prevEpisodes) => [...prevEpisodes, data]);
+                    })
+                    .catch((err) => {
+                        console.error(`Error fetching episode with id ${epId}:`, err);
+                    });
+            });
+
+            // Fetch related characters
+            const relatedIds = character.related_character_ids || [];
+            Promise.all(relatedIds.map((id) => getCharacterById(id)))
+                .then((relatedCharacters) => {
+                    setRelated(relatedCharacters);
+                })
+                .catch((err) => {
+                    console.error('Error fetching related characters:', err);
+                });
+        }
+    }, [character]);
+
+    if (loading) {
+        return (
+            <div className="char-page">
+                <PageTemplate header={<h1>Loading character...</h1>} footer={<Footer />}>
+                    <p className="muted">Please wait while we fetch the character data.</p>
+                </PageTemplate>
+            </div>
+        );
+    }
+
 
     const handleBack = () => {
         setError(null);
         setSelectedCharacter(null);
     };
 
-    const threat = THREAT[c.threat_level] ?? { pct: 10, label: c.threat_level ?? '—' };
-    const related = (c.related_character_ids ?? [])
-        .map((id) => enriched.find((x) => x.id === id))
-        .filter(Boolean)
-        .slice(0, 3);
-    const ref = `C137-${pad(c.id)}`;
+    const threat = THREAT[character.threat_level] ?? { pct: 10, label: character.threat_level ?? '—' };
+    const ref = `C137-${pad(character.id)}`;
 
     const header = (
         <div className="char-page__top">
             <nav className="char-page__crumbs">
-                <span>Character directory</span> / <span>{c.origin?.name}</span> /{' '}
-                <span className="chip chip--primary">{c.name} (#{pad(c.id)})</span>
+                <span>Character directory</span> / <span>{character.origin?.name}</span> /{' '}
+                <span className="chip chip--primary">{character.name} (#{pad(character.id)})</span>
             </nav>
             <Button variant="back" size="sm" onClick={handleBack}>
                 [ ← Back to directory ]
@@ -75,34 +101,34 @@ function CharacterPage({ character, setSelectedCharacter, setError, error }) {
                 <div className="char-page__content">
                     <div className="char-page__alert">
                         <span>● Security level // Citadel classified Omega-9</span>
-                        <span>ID: {ref} · LOC: {c.location?.name}</span>
+                        <span>ID: {ref} · LOC: {character.location?.name}</span>
                     </div>
 
                     <section className="panel char-page__hero">
                         <aside className="char-page__side">
                             <div className="char-page__photo">
-                                <img src={`${IMG_BASE}/${c.id}.jpeg`} alt={c.name} loading="lazy" />
+                                <img src={`${IMG_BASE}/${character.id}.jpeg`} alt={character.name} loading="lazy" />
                                 <span className="char-page__photo-tag">DNA: primordial</span>
                             </div>
 
                             <dl className="char-page__rows">
                                 <div>
                                     <dt>Biological status</dt>
-                                    <dd className={`status--${c.status}`}>● {STATUS[c.status] ?? c.status}</dd>
+                                    <dd className={`status--${character.status}`}>● {STATUS[character.status] ?? character.status}</dd>
                                 </div>
                                 <div>
                                     <dt>Species / gender</dt>
-                                    <dd>{c.species} / {c.gender}{c.age ? ` / ~${c.age}y` : ''}</dd>
+                                    <dd>{character.species} / {character.gender}{character.age ? ` / ~${character.age}y` : ''}</dd>
                                 </div>
                                 <div>
                                     <dt>Serial</dt>
-                                    <dd>PG-{c.id}-OMEGA</dd>
+                                    <dd>PG-{character.id}-OMEGA</dd>
                                 </div>
                             </dl>
 
                             <div className="char-page__radar">
                                 <small>Dimensional origin radar</small>
-                                <strong>{c.origin?.name}</strong>
+                                <strong>{character.origin?.name}</strong>
                             </div>
 
                             <div className="char-page__threat">
@@ -125,14 +151,14 @@ function CharacterPage({ character, setSelectedCharacter, setError, error }) {
                                 <span className="chip chip--secondary">Ref: {ref}</span>
                                 <span className="chip chip--danger">Red priority</span>
                             </div>
-                            <h1 className="char-page__title">{c.name}</h1>
-                            <p className="char-page__desc">{c.description}</p>
+                            <h1 className="char-page__title">{character.name}</h1>
+                            <p className="char-page__desc">{character.description}</p>
 
                             <div className="char-page__grid">
-                                <Info label="Dimensional origin" value={c.origin?.name} />
-                                <Info label="Current residence" value={c.current_residence ?? c.location?.name} />
-                                <Info label="Mental state" value={c.mental_state} />
-                                <Info label="Citadel status" value={c.citadel_status} danger />
+                                <Info label="Dimensional origin" value={character.origin} />
+                                <Info label="Current residence" value={character.current_residence ?? character.location?.name} />
+                                <Info label="Mental state" value={character.mental_state} />
+                                <Info label="Citadel status" value={character.citadel_status} danger />
                             </div>
                         </div>
                     </section>
@@ -157,26 +183,36 @@ function CharacterPage({ character, setSelectedCharacter, setError, error }) {
                                 <div className="char-page__tab-head">
                                     <div>
                                         <h2>Key missions and incidents log</h2>
-                                        <p className="muted">Files where {c.name} altered the fabric of spacetime.</p>
+                                        <p className="muted">Files where {character.name} altered the fabric of spacetime.</p>
                                     </div>
-                                    <span className="chip chip--primary">Total logged: {c.episode?.length ?? 0} episodes</span>
+                                    <span className="chip chip--primary">Total logged: {character.episode?.length ?? 0} episodes</span>
                                 </div>
-                                {loading ? <p className="muted">Loading episodes…</p> : (
-                                    <table className="char-page__table">
-                                        <thead>
-                                            <tr><th>Code</th><th>File title</th><th>Air date</th></tr>
-                                        </thead>
-                                        <tbody>
-                                            {episodes.map((e) => (
-                                                <tr key={e.id}>
-                                                    <td className="code">{e.episode}</td>
-                                                    <td>{e.name}</td>
-                                                    <td>{e.air_date}</td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                )}
+
+                                <table className="char-page__table">
+                                    <thead>
+                                        <tr><th>Code</th><th>File title</th><th>Air date</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        {episodes.map((ep) => (
+                                            <tr key={ep.id}>
+                                                <td>{ep.episode}</td>
+                                                <td>{ep.name}</td>
+                                                <td>{ep.air_date}</td>
+                                            </tr>
+                                        )).slice((page - 1) * 10, page * 10)}
+                                    </tbody>
+                                </table>
+                                <div className="char-page__pagination">
+                                    <Button variant="secondary" onClick={() => setPage(page - 1)} disabled={page === 1}>
+                                        Previous
+                                    </Button>
+                                    <span className="char-page__page-info">
+                                        Page {page} of {Math.ceil(episodes.length / 10)}
+                                    </span>
+                                    <Button variant="secondary" onClick={() => setPage(page + 1)} disabled={page === Math.ceil(episodes.length / 10)}>
+                                        Next
+                                    </Button>
+                                </div>
                             </>
                         ) : (
                             <p className="muted">Section under construction.</p>
@@ -188,7 +224,7 @@ function CharacterPage({ character, setSelectedCharacter, setError, error }) {
                         <h3 className="char-page__section-title">Quick teleport: explore other subjects</h3>
                         <div className="char-page__related">
                             {related.map((r) => (
-                                <button key={r.id} className="char-page__rel" onClick={() => setSelectedCharacter(r)}>
+                                <button key={r.id} className="char-page__rel" onClick={() => setSelectedCharacter(r.id)}>
                                     <img src={`${IMG_BASE}/${r.id}.jpeg`} alt={r.name} loading="lazy" />
                                     <span className="char-page__rel-text">
                                         <small>Subject #{pad(r.id)}</small>
@@ -197,7 +233,7 @@ function CharacterPage({ character, setSelectedCharacter, setError, error }) {
                                     </span>
                                     <span aria-hidden>›</span>
                                 </button>
-                            ))}
+                            )).slice(0, 3)}
                         </div>
                     </section>
                 </div>
@@ -206,13 +242,5 @@ function CharacterPage({ character, setSelectedCharacter, setError, error }) {
     );
 }
 
-function Info({ label, value, danger }) {
-    return (
-        <div className="info">
-            <small>{label}</small>
-            <strong className={danger ? 'info__danger' : ''}>{value ?? '—'}</strong>
-        </div>
-    );
-}
 
 export default CharacterPage;

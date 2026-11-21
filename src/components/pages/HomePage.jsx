@@ -1,6 +1,6 @@
 import PageTemplate from '../templates/PageTemplate.jsx';
 import Footer from '../layout/Footer.jsx';
-import HomeInfoSection from '../molecules/HomeInfoSection.jsx';
+import HomeInfoSection from '../organisms/HomeInfoSection.jsx';
 import SearchBarSection from '../organisms/SearchBarSection.jsx';
 import CharactersGridSection from '../organisms/CharactersGridSection.jsx';
 

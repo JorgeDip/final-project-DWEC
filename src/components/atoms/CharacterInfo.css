@@ -1,0 +1,26 @@
+.info {
+    display: grid;
+    gap: var(--space-xs);
+    padding: var(--space-md);
+    background: var(--color-surface);
+    border: var(--border-subtle);
+}
+
+.info small {
+    font-family: var(--font-label);
+    font-size: var(--text-label-sm-size);
+    letter-spacing: var(--text-label-sm-tracking);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+
+.info strong {
+    font-family: var(--font-headline);
+    font-size: var(--text-headline-sm-size);
+    line-height: var(--text-headline-sm-line);
+    font-weight: 500;
+}
+
+.info__danger {
+    color: var(--color-danger);
+}

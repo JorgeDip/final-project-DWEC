@@ -35,7 +35,7 @@ function CharacterCard({ character, setSelectedCharacter }) {
                     </div>
                 </dl>
 
-                <Button onClick={() => setSelectedCharacter(character)}>View details →</Button>
+                <Button onClick={() => setSelectedCharacter(character.id)}>View details →</Button>
             </div>
         </article>
     );
