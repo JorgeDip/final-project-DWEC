@@ -1,21 +1,23 @@
+import Badge from '../atoms/Badge.jsx';
 import Button from '../atoms/Button.jsx';
 import './CharacterCard.css';
 function CharacterCard({ character, setSelectedCharacter }) {
     // alive / dead / unknown, para la clase del color
     const status = character.status?.toLowerCase() ?? 'unknown';
-    console.log(character);
 
     return (
         <article className="character-card">
             <div className="character-card__media">
                 <img
-                    className="character-card__image" src={`https://pfygdubgszqehygueykn.supabase.co/storage/v1/object/public/rickandmorty/${character.id}.jpeg`} alt={character.name} loading="lazy"/>
-                <span className="character-card__badge character-card__badge--id">
+                    className="character-card__image" src={`https://pfygdubgszqehygueykn.supabase.co/storage/v1/object/public/rickandmorty/${character.id}.jpeg`} alt={character.name} loading="lazy" />
+                <Badge>
                     #{String(character.id).padStart(3, '0')}
-                </span>
-                <span className={`character-card__badge character-card__badge--status character-card__badge--${status}`}>
+                </Badge>
+                <Badge
+                    status={status}
+                >
                     {character.status}
-                </span>
+                </Badge>
             </div>
 
             <div className="character-card__body">

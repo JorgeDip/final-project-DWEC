@@ -2,13 +2,13 @@ import Button from "../atoms/Button";
 import CharacterCard from "../molecules/CharacterCard";
 import "./CharactersGridSection.css";
 
-const PAGE_SIZE = 20;
-const TOTAL_CHARACTERS = 826;
-const TOTAL_PAGES = 42;
 
-function CharactersGridSection({ error, page, handleChangePage, characters, setSelectedCharacter }) {
-    const firstItem = (page - 1) * PAGE_SIZE + 1;
-    const lastItem = (page - 1) * PAGE_SIZE + characters.length;
+function CharactersGridSection({ error, page, handleChangePage, characters, setSelectedCharacter, pageSize = 20, totalCharacters = 826 }) {
+
+    const TOTAL_PAGES = Math.max(1, Math.ceil(totalCharacters / pageSize));
+
+    const firstItem = (page - 1) * pageSize + 1;
+    const lastItem = (page - 1) * pageSize + characters.length;
 
     return (
         <div className="container characters-grid-section">
@@ -23,7 +23,7 @@ function CharactersGridSection({ error, page, handleChangePage, characters, setS
             <div className="characters-grid-section__pagination">
                 {characters.length > 0 && (
                     <p className="characters-grid-section__summary">
-                        Showing <span>{firstItem} - {lastItem}</span> of <span>{TOTAL_CHARACTERS}</span> characters
+                        Showing <span>{firstItem} - {lastItem}</span> of <span>{totalCharacters}</span> characters
                     </p>
                 )}
 

@@ -11,9 +11,18 @@ export async function getCharacters(page = 1) {
 	const key = "characters_cache_pages_v2"; //In theory, it should show the location and state of the card for the character.
 	const rawCache = localStorage.getItem(key);
 	const cache = rawCache ? JSON.parse(rawCache) : {};
+	const paginationInfoRaw = localStorage.getItem("pagination_info");
 
 	// If the data for the requested page is already cached, return it
 	if (cache[page]) return cache[page];
+	if (paginationInfoRaw) {
+		const pageInfo = JSON.parse(paginationInfoRaw);
+		if (pageInfo.pages !== 42) {
+			// If the number of pages has changed, clear the cache and fetch fresh data
+			localStorage.removeItem(key);
+			localStorage.removeItem("pagination_info");
+		}
+	}
 
 	// Fetch the data from the API if not cached
 	const response = await fetch(`${BASE_URL}/character?page=${page}`);
@@ -32,8 +41,17 @@ export async function getCharacters(page = 1) {
 
 	// Store the cleaned results in the cache object under the page number
 	cache[page] = cleanResults;
+
+	const paginationInfo = {
+		count: data.info.count,
+		pages: data.info.pages,
+		next: data.info.next,
+		prev: data.info.prev,
+	};
+
 	try {
 		localStorage.setItem(key, JSON.stringify(cache));
+		localStorage.setItem("pagination_info", JSON.stringify(paginationInfo));
 	} catch (error) {
 		console.warn("Cannot save to localStorage:", error);
 	}

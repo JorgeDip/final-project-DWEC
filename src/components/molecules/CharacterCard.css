@@ -25,39 +25,6 @@
     object-fit: cover;
 }
 
-.character-card__badge {
-    position: absolute;
-    top: var(--space-sm);
-    padding: 2px var(--space-sm);
-    border-radius: var(--radius-full);
-    background: rgba(15, 19, 29, 0.8);
-    font-family: var(--font-label);
-    font-size: 0.7rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-}
-
-.character-card__badge--id {
-    left: var(--space-sm);
-    color: var(--color-text-muted);
-}
-
-.character-card__badge--status {
-    right: var(--space-sm);
-}
-
-.character-card__badge--alive {
-    color: var(--color-primary);
-}
-
-.character-card__badge--dead {
-    color: var(--color-danger, #ff5c5c);
-}
-
-.character-card__badge--unknown {
-    color: var(--color-text-muted);
-}
-
 /* Contenido */
 .character-card__body {
     flex: 1;
