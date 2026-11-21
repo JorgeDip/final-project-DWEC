@@ -1,6 +1,6 @@
 import PageTemplate from '../templates/PageTemplate.jsx';
 import Footer from '../layout/Footer.jsx';
-import HomeInfoSection from '../organisms/HomeInfoSection.jsx';
+import HomeInfoSection from '../molecules/HomeInfoSection.jsx';
 import SearchBarSection from '../organisms/SearchBarSection.jsx';
 import CharactersGridSection from '../organisms/CharactersGridSection.jsx';
 
@@ -18,7 +18,7 @@ function HomePage({ characters, setCharacters, setError, error, setSelectedChara
     const [searchPage, setSearchPage] = useState(1);
     const [fileCharacters, setFileCharacters] = useState([]);
 
-    // Listado normal (API), paginado por page
+    // Listado normal (API)
     useEffect(() => {
         getCharacters(page)
             .then(data => setCharacters(data))
@@ -42,7 +42,7 @@ function HomePage({ characters, setCharacters, setError, error, setSelectedChara
 
     }, [searchTerm]);
 
-    // Filtrado + paginación de la búsqueda (valores derivados, sin estado extra)
+    // Filtrado + paginación de la búsqueda
     const filtered = fileCharacters.filter(character =>
         character.name.toLowerCase().includes(searchTerm.toLowerCase())
     );

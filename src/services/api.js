@@ -144,3 +144,34 @@ export async function getCharactersFromFile() {
 	// Return the cleaned object with only the necessary properties
 	return data;
 }
+
+export async function getEpisodeById(id) {
+	// Check if the data is already cached in localStorage
+	const key = `episodes_cache`;
+	const rawCache = localStorage.getItem(key);
+	const cache = rawCache ? JSON.parse(rawCache) : {};
+
+	// If the data for the requested episode is already cached, return it
+	if (cache[id]) {
+		console.log(`Fetching episode with id ${id} from cache`);
+		return cache[id];
+	}
+
+	const res = await fetch(`${BASE_URL}/episode/${id}`);
+	if (!res.ok) {
+		throw new Error(`Error fetching episode with id ${id}: ${res.statusText}`);
+	}
+
+	const data = await res.json();
+
+	// Cache the results in localStorage
+	cache[id] = data;
+	try {
+		localStorage.setItem(key, JSON.stringify(cache));
+	} catch (e) {
+		console.warn("Cannot save to localStorage:", e);
+	}
+
+	// Return the cleaned object with only the necessary properties
+	return data;
+}

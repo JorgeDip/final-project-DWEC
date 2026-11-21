@@ -27,7 +27,7 @@ function App() {
 
   // Render the selected character details if a character is selected
   if (selectedCharacter) {
-    return <CharacterPage character={selectedCharacter} setSelectedCharacter={setSelectedCharacter} setError={setError} error={error} />
+    return <CharacterPage characterId={selectedCharacter} setSelectedCharacter={setSelectedCharacter} setError={setError} error={error} />
   }
 
   // Render the list of characters and pagination buttons
