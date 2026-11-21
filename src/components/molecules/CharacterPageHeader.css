@@ -1,0 +1,14 @@
+.char-page__top {
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: var(--space-md) var(--layout-margin);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-md);
+    font-family: var(--font-label);
+    font-size: var(--text-label-md-size);
+    letter-spacing: var(--text-label-md-tracking);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
