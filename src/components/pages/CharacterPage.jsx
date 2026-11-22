@@ -53,9 +53,14 @@ function CharacterPage({ characterId, setSelectedCharacter, setError, error }) {
                     });
             });
 
-            // Fetch related characters
+            // Fetch 3 random related characters
             const relatedIds = character.related_character_ids || [];
-            Promise.all(relatedIds.map((id) => getCharacterById(id)))
+
+            // Shuffle and select 3 random related character IDs
+            const selectedIds = relatedIds.length > 3
+                ? [...relatedIds].sort(() => Math.random() - 0.5).slice(0, 3)
+                : relatedIds;
+            Promise.all(selectedIds.map((id) => getCharacterById(id)))
                 .then((relatedCharacters) => {
                     setRelated(relatedCharacters);
                 })
