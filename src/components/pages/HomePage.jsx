@@ -18,14 +18,14 @@ function HomePage({ characters, setCharacters, setError, error, setSelectedChara
     const [searchPage, setSearchPage] = useState(1);
     const [fileCharacters, setFileCharacters] = useState([]);
 
-    // Listado normal (API)
     useEffect(() => {
         getCharacters(page)
             .then(data => setCharacters(data))
             .catch(error => setError(error));
     }, [page]);
 
-    // Al empezar a buscar, se cargan los personajes del JSON (una sola vez)
+
+    // Load characters from the local JSON file when a search term is entered
     useEffect(() => {
         if (searchTerm !== '' && fileCharacters.length === 0) {
             const normalizeCharacter = (c) => ({
@@ -34,7 +34,6 @@ function HomePage({ characters, setCharacters, setError, error, setSelectedChara
                 location: c.location?.name ?? c.location,
             });
 
-            // en HomePage.jsx
             getCharactersFromFile()
                 .then(data => setFileCharacters(data.map(normalizeCharacter)))
                 .catch(error => setError(error));

@@ -79,12 +79,15 @@ function CharacterPage({ characterId, setSelectedCharacter, setError, error }) {
     const handleBack = () => {
         setError(null);
         setSelectedCharacter(null);
+        setEpisodes([]); // Clear episodes when going back to the list
+        setRelated([]); // Clear related characters when going back to the list
     };
 
     const handleChangeCharacter = (id) => {
         setError(null);
         setSelectedCharacter(id);
-        setEpisodes([]); // Clear episodes when changing character
+        setEpisodes([]); // Clear episodes when changing 
+        setRelated([]); // Clear related characters when changing character
     }
 
     const threat = THREAT[character.threat_level] ?? { pct: 10, label: character.threat_level ?? '—' };
