@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getCharacterById, getEpisodeById } from '../../services/api.js';
+import { pickRandom } from '../../services/utils.js';
 
 import Button from '../atoms/Button.jsx';
 import Info from '../atoms/CharacterInfo.jsx';
@@ -11,14 +12,16 @@ import './CharacterPage.css';
 
 const IMG_BASE = 'https://pfygdubgszqehygueykn.supabase.co/storage/v1/object/public/rickandmorty';
 const STATUS = { Alive: 'Alive', Dead: 'Dead', unknown: 'Unknown' };
+
 const THREAT = {
+    Minimal: { pct: 10, label: 'Minimal' },
     Low: { pct: 20, label: 'Low' },
     Medium: { pct: 50, label: 'Medium' },
     High: { pct: 75, label: 'High' },
     Extreme: { pct: 99, label: 'Multiversal extinction' },
 };
 const TABS = ['Featured episodes', 'Multiversal variants', 'Registered inventions', 'Links & allies'];
-const pad = (n) => String(n).padStart(3, '0');
+
 
 function CharacterPage({ characterId, setSelectedCharacter, setError, error }) {
     const [tab, setTab] = useState(0);
@@ -58,7 +61,7 @@ function CharacterPage({ characterId, setSelectedCharacter, setError, error }) {
 
             // Shuffle and select 3 random related character IDs
             const selectedIds = relatedIds.length > 3
-                ? [...relatedIds].sort(() => Math.random() - 0.5).slice(0, 3)
+                ? pickRandom(relatedIds, 3)
                 : relatedIds;
             Promise.all(selectedIds.map((id) => getCharacterById(id)))
                 .then((relatedCharacters) => {
@@ -72,35 +75,32 @@ function CharacterPage({ characterId, setSelectedCharacter, setError, error }) {
 
     if (loading) {
         return (
-            <div className="char-page">
-                <PageTemplate header={<h1>Loading character...</h1>} footer={<Footer />}>
+            <PageTemplate header={<h1>Loading character...</h1>} footer={<Footer />}>
+                <div className="char-page container">
                     <p className="muted">Please wait while we fetch the character data.</p>
-                </PageTemplate>
-            </div>
+                </div>
+            </PageTemplate>
         );
     }
 
-
-    const handleBack = () => {
-        setError(null);
-        setSelectedCharacter(null);
-        setEpisodes([]); // Clear episodes when going back to the list
-        setRelated([]); // Clear related characters when going back to the list
-    };
-
-    const handleChangeCharacter = (id) => {
+    const handleChangeCharacter = (id = null) => {
         setError(null);
         setSelectedCharacter(id);
         setEpisodes([]); // Clear episodes when changing 
         setRelated([]); // Clear related characters when changing character
     }
 
+    // Pad character ID with leading zeros for display
+    const pad = (num) => {
+        return num.toString().padStart(3, '0');
+    };
+
     const threat = THREAT[character.threat_level] ?? { pct: 10, label: character.threat_level ?? '—' };
     const ref = `C137-${pad(character.id)}`;
 
 
     return (
-        <PageTemplate header={<CharacterPageHeader character={character} pad={pad} handleBack={handleBack} />} footer={<Footer />}>
+        <PageTemplate header={<CharacterPageHeader character={character} pad={pad} handleBack={handleChangeCharacter} />} footer={<Footer />}>
             <div className="char-page">
                 <div className="char-page__content">
                     <div className="char-page__alert">
@@ -136,11 +136,13 @@ function CharacterPage({ characterId, setSelectedCharacter, setError, error }) {
                             </div>
 
                             <div className="char-page__threat">
-                                <div className="char-page__threat-head">
+                                <div className={`char-page__threat-head char-page__threat-head--${threat.label.toLowerCase().split(' ').join('-')}`}>
                                     <span>⚠ Threat level</span>
                                     <span>{threat.label}</span>
                                 </div>
-                                <div className="char-page__bar"><div style={{ width: `${threat.pct}%` }} /></div>
+                                <div className={`char-page__bar char-page__bar--${threat.label.toLowerCase().split(' ').join('-')}`}>
+                                    <div style={{ width: `${threat.pct}%` }} />
+                                </div>
                             </div>
 
                             <Button variant="primary" block>Track portal gun</Button>

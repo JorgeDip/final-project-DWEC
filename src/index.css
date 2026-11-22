@@ -79,6 +79,13 @@
     --color-danger-container: #93000a;
     /* badge NIVEL OMEGA */
     --color-on-danger-container: #ffdad6;
+    /* warning: advertencia, valores intermedios */
+    --color-threat-minimal: #00ff9d;
+    --color-threat-low: #00e38b;
+    --color-threat-medium: #ffcc00;
+    --color-threat-high: #ff6b6b;
+    --color-threat-extreme: #ff0000;
+
 
     /* ---------- Estados de personaje ---------- */
     --status-alive: var(--color-primary);
