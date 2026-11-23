@@ -284,6 +284,7 @@
 .char-page__tabs {
     display: flex;
     gap: var(--space-sm);
+    flex-wrap: wrap;
     margin-bottom: var(--space-lg);
     overflow-x: auto;
 }
