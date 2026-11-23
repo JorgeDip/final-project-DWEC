@@ -6,6 +6,7 @@ import Button from '../atoms/Button.jsx';
 import Info from '../atoms/CharacterInfo.jsx';
 import CharacterPageHeader from '../molecules/CharacterPageHeader.jsx';
 import CharacterEpisodesTable from '../molecules/CharacterEpisodesTable.jsx';
+import LoadingScreen from '../molecules/LoadingScreen.jsx';
 import PageTemplate from '../templates/PageTemplate.jsx';
 import Footer from '../layout/Footer.jsx';
 import './CharacterPage.css';
@@ -31,16 +32,29 @@ function CharacterPage({ characterId, setSelectedCharacter, setError, error }) {
     const [episodes, setEpisodes] = useState([]);
     const [related, setRelated] = useState([]);
 
+    // Load the character. The loading screen stays visible for 2-3 seconds,
+    // even if the data arrives earlier
     useEffect(() => {
-        getCharacterById(characterId)
+        let ignore = false;
+
+        const minTime = new Promise((resolve) => setTimeout(resolve, 2000 + Math.random() * 1000));
+
+        const request = getCharacterById(characterId)
             .then((data) => {
-                setCharacter(data);
-                setLoading(false);
+                if (!ignore) setCharacter(data);
             })
             .catch((err) => {
-                setError(err);
-                setLoading(false);
+                if (!ignore) setError(err);
             });
+
+        Promise.all([request, minTime]).then(() => {
+            if (!ignore) setLoading(false);
+        });
+
+        // cleanup: if the id changes or the page closes, the old request is ignored
+        return () => {
+            ignore = true;
+        };
     }, [characterId]);
 
     // Fetch episodes for the character when the character data is available
@@ -73,16 +87,25 @@ function CharacterPage({ characterId, setSelectedCharacter, setError, error }) {
         }
     }, [character]);
 
-    if (loading) {
+    if (loading) return <LoadingScreen />;
+
+// the request failed: show the error instead of the detail page
+    if (!character) {
         return (
-            <PageTemplate header={<h1>Loading character...</h1>} footer={<Footer />}>
-                <div className="char-page container">
-                    <p className="muted">Please wait while we fetch the character data.</p>
+            <PageTemplate header={<h1>Character not available</h1>} footer={<Footer />}>
+                <div className="char-page">
+                    <div className="char-page__content">
+                        <p className="char-page__error">
+                            {error?.message ?? 'The character could not be loaded.'}
+                        </p>
+                        <Button onClick={() => { setError(null); setSelectedCharacter(null); }}>
+                            Back
+                        </Button>
+                    </div>
                 </div>
             </PageTemplate>
         );
     }
-
     const handleChangeCharacter = (id = null) => {
         setError(null);
         setSelectedCharacter(id);
