@@ -106,6 +106,9 @@ export async function getCharacterById(id) {
 }
 
 export async function getVariantsByCharacterId(variant) {
+	if (variant === null || variant === undefined) {
+		return [];
+	}
 	const key = `variants_cache`;
 	const cached = readCache(key)[variant];
 	if (cached) {
@@ -121,11 +124,13 @@ export async function getVariantsByCharacterId(variant) {
 	}
 	const data = await res.json();
 
+	const filteredData = data.filter((v) => String(v.variant) === String(variant));
+
 	const freshCache = readCache(key);
-	freshCache[variant] = data.filter((v) => v.variant === variant);
+	freshCache[variant] = filteredData;
 	writeCache(key, freshCache);
 
-	return data;
+	return filteredData;
 }
 
 export async function getCharactersFromFile() {

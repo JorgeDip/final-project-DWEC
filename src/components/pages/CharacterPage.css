@@ -319,65 +319,12 @@
     border-color: var(--color-primary);
 }
 
-.char-page__tab-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: var(--space-md);
-}
-
-.char-page__tab-head h2 {
-    font-family: var(--font-headline);
-    font-size: var(--text-headline-md-size);
-    line-height: var(--text-headline-md-line);
-    text-transform: uppercase;
-}
 
 .muted {
     color: var(--color-text-muted);
     font-size: var(--text-body-md-size);
 }
 
-.char-page__table {
-    width: 100%;
-    margin-top: var(--space-md);
-    border-collapse: collapse;
-}
-
-.char-page__table th {
-    text-align: left;
-    padding: var(--space-sm);
-    font-family: var(--font-label);
-    font-size: var(--text-label-sm-size);
-    letter-spacing: var(--text-label-sm-tracking);
-    text-transform: uppercase;
-    color: var(--color-text-muted);
-    border-bottom: var(--border-subtle);
-}
-
-.char-page__table td {
-    padding: var(--space-md) var(--space-sm);
-    border-bottom: var(--border-subtle);
-    font-size: var(--text-body-md-size);
-}
-
-.char-page__table tbody tr:hover {
-    background: var(--color-surface);
-}
-
-.char-page__table .code {
-    font-family: var(--font-label);
-    font-size: var(--text-label-md-size);
-    color: var(--color-primary);
-}
-
-.char-page__pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: var(--space-md);
-    margin-top: var(--space-md);
-}
 
 /* ---------- Teletransporte ---------- */
 .char-page__section-title {
@@ -461,8 +408,7 @@
         grid-template-columns: 1fr;
     }
 
-    .char-page__alert,
-    .char-page__tab-head {
+    .char-page__alert {
         flex-direction: column;
         align-items: flex-start;
     }
