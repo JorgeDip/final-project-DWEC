@@ -40,9 +40,9 @@ function CharacterTabTable({ tab = 0, character, episodes = null, variants = nul
                     <tr>
                         <th>Variant Image</th>
                         <th>Variant Name</th>
-                        <th>Origin</th>
                         <th>Age</th>
                         <th>Threat Level</th>
+                        <th>Origin</th>
                     </tr>
                 ) : null}
             </thead>
@@ -60,11 +60,13 @@ function CharacterTabTable({ tab = 0, character, episodes = null, variants = nul
                 ) : (
                     variants?.length > 0 ? variants.filter((v) => v.id !== character.id).slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE).map((variant) => (
                         <tr key={variant.id} onClick={() => handleChangeCharacter(variant.id)}>
-                            <td><img src={`${IMG_BASE}/${variant.id}.jpeg`} alt={variant.name} className="char-table__image" /></td>
-                            <td>{variant.name}</td>
-                            <td>{variant.origin?.name}</td>
+                            <td className="char-table__image-cell">
+                                <img src={`${IMG_BASE}/${variant.id}.jpeg`} alt={variant.name} className="char-table__image" />
+                            </td>
+                            <td className="char-table__name-cell">{variant.name}</td>
                             <td>{variant.age}</td>
                             <td className={`char-page__threat--${variant.threat_level.toLowerCase()}`}>{variant.threat_level}</td>
+                            <td>{variant.origin?.name}</td>
                         </tr>
                     )) : (
                         <tr><td colSpan="5">No variants available</td></tr>
