@@ -5,9 +5,10 @@ import './LoadingScreen.css';
 
 const PHRASES = [
     'Wubba lubba dub dub!',
-    'Get schwifty!',
-    "And that's the way the news goes!",
+    "Don't forget to add a loading phrase here.",
+    "There's a 5% chance for the loading icon to change.",
     "I'm Mr. Meeseeks, look at me!",
+    "They told me to add a loading phrase here.",
     'Pickle Rick!',
     'Opening a portal to dimension C-137...',
     'Calibrating the portal gun...',
