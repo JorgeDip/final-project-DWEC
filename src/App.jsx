@@ -13,6 +13,9 @@ function App() {
   const [error, setError] = useState(null);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
 
+  const clearError = () => {
+    setError(null);
+  };
 
   useEffect(() => {
     // Load characters from the local JSON file on initial load
@@ -27,11 +30,11 @@ function App() {
 
   // Render the selected character details if a character is selected
   if (selectedCharacter) {
-    return <CharacterPage key={selectedCharacter} characterId={selectedCharacter} setSelectedCharacter={setSelectedCharacter} setError={setError} error={error} />
+    return <CharacterPage key={selectedCharacter} characterId={selectedCharacter} setSelectedCharacter={setSelectedCharacter} error={error} setError={setError} clearError={clearError} />
   }
 
   // Render the list of characters and pagination buttons
-  return <HomePage characters={characters} setCharacters={setCharacters} setError={setError} error={error} setSelectedCharacter={setSelectedCharacter} />
+  return <HomePage characters={characters} setCharacters={setCharacters} setError={setError} setSelectedCharacter={setSelectedCharacter} error={error} clearError={clearError} />
 }
 
 export default App

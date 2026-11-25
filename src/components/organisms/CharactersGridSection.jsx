@@ -3,7 +3,7 @@ import CharacterCard from "../molecules/CharacterCard";
 import "./CharactersGridSection.css";
 
 
-function CharactersGridSection({ error, page, handleChangePage, characters, setSelectedCharacter, pageSize = 20, totalCharacters = 826 }) {
+function CharactersGridSection({ page, handleChangePage, characters, setSelectedCharacter, pageSize = 20, totalCharacters = 826 }) {
 
     const TOTAL_PAGES = Math.max(1, Math.ceil(totalCharacters / pageSize));
 
@@ -12,7 +12,6 @@ function CharactersGridSection({ error, page, handleChangePage, characters, setS
 
     return (
         <div className="container characters-grid-section">
-            {error && <p>{error.message}</p>}
 
             <div className="characters-grid-section__grid">
                 {characters.map(character => (

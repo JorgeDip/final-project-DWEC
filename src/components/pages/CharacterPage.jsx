@@ -4,6 +4,7 @@ import { pickRandom } from '../../services/utils.js';
 
 import Button from '../atoms/Button.jsx';
 import Info from '../atoms/CharacterInfo.jsx';
+import ErrorToast from '../atoms/ErrorToast.jsx';
 import CharacterPageHeader from '../molecules/CharacterPageHeader.jsx';
 import CharacterTabTable from '../molecules/CharacterTabTable.jsx';
 import LoadingScreen from '../molecules/LoadingScreen.jsx';
@@ -24,7 +25,7 @@ const THREAT = {
 const TABS = ['Featured episodes', 'Multiversal variants', 'Registered inventions', 'Links & allies'];
 
 
-function CharacterPage({ characterId, setSelectedCharacter, setError, error }) {
+function CharacterPage({ characterId, setSelectedCharacter, setError, error, clearError }) {
     const [tab, setTab] = useState(0);
     const [loading, setLoading] = useState(true);
 
@@ -245,6 +246,8 @@ function CharacterPage({ characterId, setSelectedCharacter, setError, error }) {
                     </section>
                 </div>
             </div>
+
+            <ErrorToast error={error} onClose={clearError} />
         </PageTemplate>
     );
 }

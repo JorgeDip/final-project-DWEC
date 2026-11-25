@@ -1,0 +1,101 @@
+.error-toast {
+    position: fixed;
+    right: var(--layout-margin);
+    bottom: var(--layout-margin);
+    z-index: 1000;
+
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+    max-width: 380px;
+    width: calc(100% - 2 * var(--layout-margin));
+    padding: var(--space-md);
+
+    background: var(--color-surface-low);
+    border: 1px solid var(--color-danger);
+    border-left-width: 4px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-overlay);
+    backdrop-filter: var(--blur-panel);
+
+    animation: error-toast-in 0.25s ease-out;
+}
+
+.error-toast__icon {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: var(--radius-full);
+    background: var(--color-danger-container);
+    color: var(--color-on-danger-container);
+    font-family: var(--font-label);
+    font-weight: 700;
+    font-size: var(--text-body-md-size);
+}
+
+.error-toast__content {
+    flex: 1;
+    min-width: 0;
+}
+
+.error-toast__title {
+    font-family: var(--font-label);
+    font-size: var(--text-label-md-size);
+    line-height: var(--text-label-md-line);
+    letter-spacing: var(--text-label-md-tracking);
+    color: var(--color-danger);
+}
+
+.error-toast__message {
+    margin-top: var(--space-xs);
+    font-family: var(--font-body);
+    font-size: var(--text-body-md-size);
+    line-height: var(--text-body-md-line);
+    color: var(--color-text);
+    word-break: break-word;
+}
+
+.error-toast__close {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    color: var(--color-text-muted);
+    font-size: var(--text-headline-sm-size);
+    line-height: 1;
+    cursor: pointer;
+    border-radius: var(--radius);
+}
+
+.error-toast__close:hover {
+    color: var(--color-text);
+}
+
+.error-toast__close:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+}
+
+.error-toast__list {
+    margin-top: var(--space-xs);
+    padding-left: var(--space-md);
+    max-height: 160px;
+    overflow-y: auto;
+}
+
+.error-toast__list .error-toast__message {
+    margin-top: 0;
+}
+
+@keyframes error-toast-in {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

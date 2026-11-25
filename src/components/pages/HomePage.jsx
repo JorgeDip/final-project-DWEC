@@ -3,6 +3,7 @@ import Footer from '../layout/Footer.jsx';
 import HomeInfoSection from '../organisms/HomeInfoSection.jsx';
 import SearchBarSection from '../organisms/SearchBarSection.jsx';
 import CharactersGridSection from '../organisms/CharactersGridSection.jsx';
+import ErrorToast from '../atoms/ErrorToast.jsx';
 
 import { getCharacters, getCharactersFromFile } from '../../services/api.js';
 import { useState, useEffect } from 'react';
@@ -13,7 +14,7 @@ const PAGE_SIZE = 20;
 const API_TOTAL_CHARACTERS = 826;
 const API_TOTAL_PAGES = Math.ceil(API_TOTAL_CHARACTERS / PAGE_SIZE); // 42
 
-function HomePage({ characters, setCharacters, setError, error, setSelectedCharacter }) {
+function HomePage({ clearError, error, characters, setCharacters, setError, setSelectedCharacter }) {
     const [page, setPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
     const [searchPage, setSearchPage] = useState(1);
@@ -23,7 +24,6 @@ function HomePage({ characters, setCharacters, setError, error, setSelectedChara
     useEffect(() => {
         getCharacters(page)
             .then(data => setCharacters(data))
-            .catch(error => setError(error));
     }, [page]);
 
 
@@ -38,7 +38,8 @@ function HomePage({ characters, setCharacters, setError, error, setSelectedChara
 
             getCharactersFromFile()
                 .then(data => setFileCharacters(data.map(normalizeCharacter)))
-                .catch(error => setError(error));
+                .catch(err => setError([...error, err]));
+
         }
 
     }, [searchTerm]);
@@ -56,7 +57,6 @@ function HomePage({ characters, setCharacters, setError, error, setSelectedChara
         searchPage * PAGE_SIZE
     );
 
-    // combine the 2 functions into one, passing the total pages as a parameter
     const handleChangePage = (newPage) => {
         const maxPage = isSearching ? totalSearchPages : API_TOTAL_PAGES;
 
@@ -83,9 +83,7 @@ function HomePage({ characters, setCharacters, setError, error, setSelectedChara
 
                 <SearchBarSection handleInputChange={handleInputChange} />
 
-                {/* Show the search results or the default characters */}
                 <CharactersGridSection
-                    error={error}
                     page={isSearching ? searchPage : page}
                     handleChangePage={handleChangePage}
                     characters={isSearching ? searchResults : characters}
@@ -94,6 +92,7 @@ function HomePage({ characters, setCharacters, setError, error, setSelectedChara
                     totalCharacters={isSearching ? filtered.length : API_TOTAL_CHARACTERS}
                 />
 
+                <ErrorToast error={error} onClose={clearError} />
 
             </PageTemplate>
         </div>
