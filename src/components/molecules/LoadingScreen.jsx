@@ -18,6 +18,7 @@ const PHRASES = [
     "Rick says this won't take long. He is lying.",
     "Barbara, please let me see the kids. At least give me the dog back.",
     "People understimate the taste of tungsten for breakfast.",
+    "Jota, I don't want to alarm you, but I think your mother is a pickle.",
 ];
 
 function LoadingScreen() {
