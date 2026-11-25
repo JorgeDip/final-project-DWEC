@@ -95,6 +95,7 @@ export async function getCharacterById(id) {
 		age: enriched.age,
 		threat_level: enriched.threat_level,
 		related_character_ids: enriched.related_character_ids || [],
+		variant: enriched.variant || null,
 	};
 
 	const freshCache = readCache(key);
@@ -102,6 +103,34 @@ export async function getCharacterById(id) {
 	writeCache(key, freshCache);
 
 	return cleanResults;
+}
+
+export async function getVariantsByCharacterId(variant) {
+	if (variant === null || variant === undefined) {
+		return [];
+	}
+	const key = `variants_cache`;
+	const cached = readCache(key)[variant];
+	if (cached) {
+		console.log(`Fetching variants for character with variant ${variant} from cache`);
+		return cached;
+	}
+
+	const res = await fetch(`${FILE_DATA_URL}`);
+	if (!res.ok) {
+		throw new Error(
+			`Error fetching variants for character with variant ${variant}: ${res.statusText}`,
+		);
+	}
+	const data = await res.json();
+
+	const filteredData = data.filter((v) => String(v.variant) === String(variant));
+
+	const freshCache = readCache(key);
+	freshCache[variant] = filteredData;
+	writeCache(key, freshCache);
+
+	return filteredData;
 }
 
 export async function getCharactersFromFile() {

@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { getCharacterById, getEpisodeById } from '../../services/api.js';
+import { getCharacterById, getEpisodeById, getVariantsByCharacterId } from '../../services/api.js';
 import { pickRandom } from '../../services/utils.js';
 
 import Button from '../atoms/Button.jsx';
 import Info from '../atoms/CharacterInfo.jsx';
 import CharacterPageHeader from '../molecules/CharacterPageHeader.jsx';
-import CharacterEpisodesTable from '../molecules/CharacterEpisodesTable.jsx';
+import CharacterTabTable from '../molecules/CharacterTabTable.jsx';
 import LoadingScreen from '../molecules/LoadingScreen.jsx';
 import PageTemplate from '../templates/PageTemplate.jsx';
 import Footer from '../layout/Footer.jsx';
@@ -19,7 +19,7 @@ const THREAT = {
     Low: { pct: 20, label: 'Low' },
     Medium: { pct: 50, label: 'Medium' },
     High: { pct: 75, label: 'High' },
-    Extreme: { pct: 99, label: 'Multiversal extinction' },
+    Extreme: { pct: 100, label: 'Multiversal extinction' },
 };
 const TABS = ['Featured episodes', 'Multiversal variants', 'Registered inventions', 'Links & allies'];
 
@@ -31,6 +31,7 @@ function CharacterPage({ characterId, setSelectedCharacter, setError, error }) {
     const [character, setCharacter] = useState(null);
     const [episodes, setEpisodes] = useState([]);
     const [related, setRelated] = useState([]);
+    const [variants, setVariants] = useState([]);
 
     // Load the character. The loading screen stays visible for 2-3 seconds,
     // even if the data arrives earlier
@@ -84,12 +85,22 @@ function CharacterPage({ characterId, setSelectedCharacter, setError, error }) {
                 .catch((err) => {
                     console.error('Error fetching related characters:', err);
                 });
+
+            getVariantsByCharacterId(character.variant)
+                .then((data) => {
+                    console.log('Fetched variants:', data);
+
+                    setVariants(data);
+                })
+                .catch((err) => {
+                    console.error(`Error fetching variants for character with id ${characterId}:`, err);
+                });
         }
     }, [character]);
 
     if (loading) return <LoadingScreen />;
 
-// the request failed: show the error instead of the detail page
+    // the request failed: show the error instead of the detail page
     if (!character) {
         return (
             <PageTemplate header={<h1>Character not available</h1>} footer={<Footer />}>
@@ -108,9 +119,10 @@ function CharacterPage({ characterId, setSelectedCharacter, setError, error }) {
     }
     const handleChangeCharacter = (id = null) => {
         setError(null);
-        setSelectedCharacter(id);
         setEpisodes([]); // Clear episodes when changing 
         setRelated([]); // Clear related characters when changing character
+        setVariants([]); // Clear variants when changing character
+        setSelectedCharacter(id);
     }
 
     // Pad character ID with leading zeros for display
@@ -208,8 +220,8 @@ function CharacterPage({ characterId, setSelectedCharacter, setError, error }) {
                         </div>
 
                         {tab === 0 ? (
-                            <CharacterEpisodesTable episodes={episodes} character={character} />
-                        ) : (
+                            <CharacterTabTable tab={tab} episodes={episodes} character={character} />
+                        ) : tab === 1 ? (<CharacterTabTable tab={tab} variants={variants} character={character} handleChangeCharacter={handleChangeCharacter} />) : (
                             <p className="muted">Section under construction.</p>
                         )}
                         {error && <p className="char-page__error">{error.message}</p>}

@@ -5,9 +5,10 @@ import './LoadingScreen.css';
 
 const PHRASES = [
     'Wubba lubba dub dub!',
-    'Get schwifty!',
-    "And that's the way the news goes!",
+    "Don't forget to add a loading phrase here.",
+    "There's a 5% chance for the loading icon to change.",
     "I'm Mr. Meeseeks, look at me!",
+    "They told me to add a loading phrase here.",
     'Pickle Rick!',
     'Opening a portal to dimension C-137...',
     'Calibrating the portal gun...',
@@ -18,7 +19,8 @@ const PHRASES = [
     "Rick says this won't take long. He is lying.",
     "Barbara, please let me see the kids. At least give me the dog back.",
     "People understimate the taste of tungsten for breakfast.",
-    "Jota, I don't want to alarm you, but I think your mother is a pickle.",
+    "I like trains",
+    "MOTHERFUCKERS! YOU KILLED KENNY! YOU BASTARDS!",
 ];
 
 function LoadingScreen() {
