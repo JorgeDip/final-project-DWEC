@@ -19,6 +19,11 @@ const PHRASES = [
     "Rick says this won't take long. He is lying.",
     "Barbara, please let me see the kids. At least give me the dog back.",
     "People understimate the taste of tungsten for breakfast.",
+    "Start clapping if you read this.",
+    "This is a call for help - Jorge after 50 commits.",
+    "No one knows I haven't flushed the toilet for the past month.",
+    "Damn, that's rough buddy.",
+    "There's a 0.1% chance for the colors of the page change into light mode when you restart it.",
 ];
 
 function LoadingScreen() {
