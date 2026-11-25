@@ -38,7 +38,7 @@ function CharacterPage({ characterId, setSelectedCharacter, setError, error }) {
     useEffect(() => {
         let ignore = false;
 
-        const minTime = new Promise((resolve) => setTimeout(resolve, 1000 + Math.random() * 1000));
+        const minTime = new Promise((resolve) => setTimeout(resolve, 2000 + Math.random() * 1000));
 
         const request = getCharacterById(characterId)
             .then((data) => {
