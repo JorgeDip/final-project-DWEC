@@ -21,6 +21,12 @@ const PHRASES = [
     "People understimate the taste of tungsten for breakfast.",
     "I like trains",
     "MOTHERFUCKERS! YOU KILLED KENNY! YOU BASTARDS!",
+    "Start clapping if you read this.",
+    "This is a call for help - Jorge after 50 commits.",
+    "No one knows I haven't flushed the toilet for the past month.",
+    "Damn, that's rough buddy.",
+    "I got the dog back!.",
+    "There's a 0.1% chance for the colors of the page change into light mode when you restart it.",
 ];
 
 function LoadingScreen() {
